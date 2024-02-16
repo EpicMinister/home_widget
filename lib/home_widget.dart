@@ -129,7 +129,7 @@ class HomeWidget {
   /// More Info on setting this up in the README
   @Deprecated('Use `registerInteractivityCallback` instead')
   static Future<bool?> registerBackgroundCallback(
-    FutureOr<void> Function(Uri?) callback,
+    FutureOr<void> Function(Uri?, Map<Object?, Object?>?) callback,
   ) =>
       registerInteractivityCallback(callback);
 
@@ -137,7 +137,7 @@ class HomeWidget {
   /// This enables having Interactive Widgets that can call Dart Code
   /// More Info on setting this up in the README
   static Future<bool?> registerInteractivityCallback(
-    FutureOr<void> Function(Uri?) callback,
+    FutureOr<void> Function(Uri?, Map<Object?, Object?>?) callback,
   ) {
     final args = <dynamic>[
       ui.PluginUtilities.getCallbackHandle(callbackDispatcher)?.toRawHandle(),

@@ -15,16 +15,17 @@ Future<void> callbackDispatcher() async {
 
     final callback = PluginUtilities.getCallbackFromHandle(
       CallbackHandle.fromRawHandle(args[0]),
-    ) as FutureOr<void> Function(Uri?);
+    ) as FutureOr<void> Function(Uri?, Map<Object?, Object?>?);
 
     final rawUri = args[1] as String?;
+    final map = args[2] as Map<Object?, Object?>?;
 
     Uri? uri;
     if (rawUri != null) {
       uri = Uri.parse(rawUri);
     }
 
-    await callback.call(uri);
+    await callback.call(uri, map);
   });
 
   await backgroundChannel.invokeMethod('HomeWidget.backgroundInitialized');

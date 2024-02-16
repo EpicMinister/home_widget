@@ -11,8 +11,10 @@ import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.view.FlutterCallbackInformation
-import java.util.*
+import java.util.ArrayDeque
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
+
 
 class HomeWidgetBackgroundService : MethodChannel.MethodCallHandler, JobIntentService() {
 
@@ -75,9 +77,21 @@ class HomeWidgetBackgroundService : MethodChannel.MethodCallHandler, JobIntentSe
 
     override fun onHandleWork(intent: Intent) {
         val data = intent.data?.toString() ?: ""
+        val map: HashMap<String?, String?> = HashMap()
+
+        if (intent.extras != null){
+            val bundle = intent.extras
+            if (bundle != null) {
+                for (key in bundle.keySet()) {
+                    map[key.toString()] = (if (bundle.get(key) != null) bundle.get(key) else "NULL").toString()
+                }
+            }
+        }
+
         val args = listOf(
                 HomeWidgetPlugin.getHandle(context),
-                data
+                data,
+                map
         )
 
         synchronized(serviceStarted) {
